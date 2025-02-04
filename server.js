@@ -37,13 +37,6 @@ app.get("/items/:id", (req, res) => {
   modeloOrdenador.buscarPorId(itemId)
   .then(ordenador=>res.json(ordenador))
   .catch(err=>res.status(500).json({"error":err}));
-
-  /*const item = items.find((i) => i.id === itemId);
-  if (item) {
-    res.json(item);
-  } else {
-    res.status(404).json({ message: "Ítem no encontrado" });
-  }*/
 });
 
 
