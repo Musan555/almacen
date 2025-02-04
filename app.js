@@ -1,43 +1,18 @@
-const modeloOrdenador = require('./models/ordenador')
+const modeloOrdenador = require('./models/ordenador');
 
+const idBuscado = '6798f6b01e64ff129d05c752'
 
-const buscaTodos =()=>{
-    Ordenador.find()
-    .then(ordenadores=>{
-        if (ordenadores.length>0){
-            console.log('ordeadores encontrados',ordenador)
-        }else{
-            console.log('No se encontro ningun registro')
-        }
-    })
-    .catch(err=>console.error('error al obtener los ordenadores',err));
-}
+//Comenta las funciones que no quieras que se ejecuten
+modeloOrdenador.buscarPrecioMayor(1500);
 
-const buscaPorId =(id)=>{
-    Ordenador.findById(id)
-    .then(ordenador=>{
-        if (ordenador){
-            console.log('Primer ordeador encontrado',ordenador)
-        }else{
-            console.log('No se encontro ningun registro con el id'+id)
-        }
-    })
-    .catch(err=>console.error('error al obtener el ordenador',err));
-}
+modeloOrdenador.buscarPorId(idBuscado);
 
-const idBuscado = '6798f8727d41c88759f3e66b';
+modeloOrdenador.buscarTodos();
 
-const buscaPrecioMayor =()=>{
-    Ordenador.find({precio:{$gt:1000}})
-    .then(ordenadores=>{
-        if (ordenadores.length>0){
-            console.log('ordeadores encontrados con precio mayor a 1000',ordenador)
-        }else{
-            console.log('No se encontro ningun registro')
-        }
-    })
-    .catch(err=>console.error('error al obtener los ordenadores',err));
-}
+modeloOrdenador.buscarPrimero();
 
-modeloOrdenador.buscarPrimero()
+modeloOrdenador.nuevoOrdenador("MSI",1700);
 
+modeloOrdenador.updateOrdenador('67990e9fc82681e0c94b098a',2500);
+
+modeloOrdenador.deleteOrdenador('67990e9fc82681e0c94b098a');

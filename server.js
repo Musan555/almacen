@@ -1,31 +1,53 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-
+app.use(express.static('public'));
 app.use(express.json());
-const moduloOrdenador=require('./models/ordenador');
+
+
+// Middleware para parsear el cuerpo de las solicitudes en formato JSON
+app.use(express.json());
+const modeloOrdenador = require('./models/ordenador');
+
+// Datos de ejemplo (simulando una base de datos)
 let items = [
-  { id: 1, name: "Ordenador 1" },
+  { id: 1, name: "Item 1" },
   { id: 2, name: "Item 2" },
   { id: 3, name: "Item 3" },
 ];
 
-app.get("/items", (req, res) => {
-    moduloOrdenador.buscaTodos();
 
-  res.json(items);
+app.get('/', (req, res)=>{
+  
+})
+
+
+// Obtener todos los ítems
+app.get("/items", (req, res) => {
+  modeloOrdenador.buscarTodos()
+  .then(ordenadores=>res.json(ordenadores))
+  .catch(err=>res.status(500).json({"error":err}))
+  /*res.json(items);*/
 });
 
+
+// Obtener un ítem por ID
 app.get("/items/:id", (req, res) => {
-  const itemId = parseInt(req.params.id);
-  const item = items.find((i) => i.id === itemId);
+  const itemId = req.params.id;
+  modeloOrdenador.buscarPorId(itemId)
+  .then(ordenador=>res.json(ordenador))
+  .catch(err=>res.status(500).json({"error":err}));
+
+  /*const item = items.find((i) => i.id === itemId);
   if (item) {
     res.json(item);
   } else {
     res.status(404).json({ message: "Ítem no encontrado" });
-  }
+  }*/
 });
 
+
+// Crear un nuevo ítem
 app.post("/items", (req, res) => {
   const newItem = {
     id: items.length + 1,
@@ -35,6 +57,8 @@ app.post("/items", (req, res) => {
   res.status(201).json(newItem);
 });
 
+
+// Actualizar un ítem existente
 app.put("/items/:id", (req, res) => {
   const itemId = parseInt(req.params.id);
   const itemIndex = items.findIndex((i) => i.id === itemId);
@@ -46,6 +70,8 @@ app.put("/items/:id", (req, res) => {
   }
 });
 
+
+// Eliminar un ítem
 app.delete("/items/:id", (req, res) => {
   const itemId = parseInt(req.params.id);
   const itemIndex = items.findIndex((i) => i.id === itemId);
@@ -57,6 +83,8 @@ app.delete("/items/:id", (req, res) => {
   }
 });
 
+
+// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
